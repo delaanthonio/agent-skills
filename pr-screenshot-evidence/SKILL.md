@@ -67,10 +67,11 @@ Keep one row per image, next to the images but outside the repository
 
 Verify every hash before attaching anything: build a checksums file from the
 manifest's filename and sha256 columns, then check it with
-`shasum -a 256 -c` (macOS/BSD) or `sha256sum -c` (Linux), for example:
+`shasum -a 256 -c` (macOS/BSD) or `sha256sum -c` (Linux). Keep captions free
+of commas so the sha256 stays in the fourth CSV field. For example:
 
 ```sh
-awk -F, '{print $4 "  " $1}' manifest.csv > checksums.txt
+awk -F, 'NR>1 {print $4 "  " $1}' manifest.csv > checksums.txt
 shasum -a 256 -c checksums.txt   # or: sha256sum -c checksums.txt
 ```
 
