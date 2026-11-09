@@ -1,0 +1,4 @@
+filename,case,caption,sha256,head_commit
+case-01-allowed.png,1,admin role renders the settings screen with every section enabled,<sha256>,<commit-sha>
+case-02-denied.png,2,viewer role renders the denied message instead of the settings screen,<sha256>,<commit-sha>
+case-03-empty.png,3,first-run user sees the empty state with a single call to action,<sha256>,<commit-sha>
