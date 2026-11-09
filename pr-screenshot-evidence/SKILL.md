@@ -57,7 +57,7 @@ the reason. It is never silently dropped.
 ## Step 3 - Write the manifest
 
 Keep one row per image, next to the images but outside the repository
-(`manifest.csv` from this skill is a starting point):
+(`manifest-template.csv` from this skill is a starting point):
 
 - filename
 - case (the matrix row)
@@ -65,8 +65,16 @@ Keep one row per image, next to the images but outside the repository
 - sha256
 - the head commit the image was captured from
 
-Verify every hash (`shasum -a 256 -c`) before attaching anything. A hash that
-does not match means the image is stale; recapture it.
+Verify every hash before attaching anything: build a checksums file from the
+manifest's filename and sha256 columns, then check it with
+`shasum -a 256 -c` (macOS/BSD) or `sha256sum -c` (Linux), for example:
+
+```sh
+awk -F, '{print $4 "  " $1}' manifest.csv > checksums.txt
+shasum -a 256 -c checksums.txt   # or: sha256sum -c checksums.txt
+```
+
+A hash that does not match means the image is stale; recapture it.
 
 ## Step 4 - Attach to the pull request
 
